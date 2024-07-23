@@ -1,4 +1,4 @@
-Documentación Oficial
+# Documentación Oficial
 
 https://cloud.google.com/deployment-manager/docs?hl=es-419
 
@@ -14,9 +14,11 @@ Instalación
 
 Instalar la versión más reciente de gcloud CLI
 
+```bash
 (New-Object Net.WebClient).DownloadFile("https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe", "$env:Temp\GoogleCloudSDKInstaller.exe") & $env:Temp\GoogleCloudSDKInstaller.exe
+```
 
-
+```bash
 Al finalizar saldrá lo siguiente:
 
 Welcome to the Google Cloud CLI! Run "gcloud -h" to get the list of available commands.
@@ -31,10 +33,11 @@ Network diagnostic detects and fixes local network connection issues.
 Checking network connection...done.
 Reachability Check passed.
 Network diagnostic passed (1/1 checks passed).
-
+```
 
 Iniciar sesión desde el navegador
 
+```bash
 You must log in to continue. Would you like to log in (Y/n)?
 
 Your browser has been opened to visit:
@@ -42,11 +45,11 @@ Your browser has been opened to visit:
     https://accounts.google.com/o/oauth2/auth?response_type=
 
 You are logged in as: [hola@focusit.pe].
-
-
+```
 
 Luego seleccionamos la siguiente opción: (En este caso seria focus-innovacion
 
+```bash
 Pick cloud project to use:
  [1] crested-epoch-422317-i4
  [2] focus-innovacion
@@ -58,11 +61,11 @@ Pick cloud project to use:
 Please enter numeric choice or text value (must exactly match list item):  2
 
 Your current project has been set to: [focus-innovacion].
-
-
+```
 
 Seguir los pasos para terminar con la instalación de GCP CLI
 
+```bash
 Do you want to configure a default Compute Region and Zone? (Y/n)?  n
 
 Created a default .boto configuration file at [C:\Users\Usuario\.boto]. See this file and
@@ -82,14 +85,11 @@ Some things to try next:
 * Run `gcloud --help` to see the Cloud Platform services you can interact with. And run `gcloud help COMMAND` to get help on any gcloud command.
 * Run `gcloud topic --help` to learn about advanced features of the SDK like arg files and output formatting
 * Run `gcloud cheat-sheet` to see a roster of go-to `gcloud` commands.
+```
 
-
-
-Habilitar Permisos en GCP 
+Habilitar Permisos en GCP
 
 Luego de instalar debemos tener habilitados algunos permisos para que GCP pueda usar esos permisos para crear una Instancia o lo necesario en el transcurso de la documentación.
-
-
 
 Debemos ir al siguiente enlace:
 
@@ -97,67 +97,86 @@ https://cloud.google.com/deployment-manager/docs/step-by-step-guide/installation
 
 Debemos habilitar las dos siguientes API para no tener problemas a futuro.
 
-
-
 Comandos
 
 Comandos necesarios que hay que tener en cuenta:
 
 Enumera las cuentas cuyas credenciales están almacenadas en el sistema local:
 
+```bash
 gcloud auth list
+```
 
 Gcloud CLI muestra una lista de cuentas con credenciales:
 
+```bash
 Credentialed Accounts
 ACTIVE             ACCOUNT
 *                  example-user-1@gmail.com
                    example-user-2@gmail.com
+```
 
 Enumera las propiedades en tu configuración activa de gcloud CLI:
 
+```bash
 gcloud config list
+```
 
 Gcloud CLI muestra la lista de propiedades:
 
+```bash
 [core]
 account = example-user-1@gmail.com
 disable_usage_reporting = False
 project = example-project
+```
 
 Ver información sobre la instalación de gcloud CLI y la actividad actual:
 
+```bash
 gcloud info
+```
 
 gcloud CLI muestra un resumen de la información sobre tus instalación. Esto incluye información sobre tu sistema, los componentes instalados, la cuenta de usuario activa y el proyecto actual las propiedades en la configuración activa.
 
 Consulta la información sobre los comandos de gcloud y otros temas:
 
+```bash
 gcloud help
+```
 
 Por ejemplo, para ver la ayuda de gcloud compute instances create:
 
+```bash
 gcloud help compute instances create
+```
 
 Gcloud CLI muestra un tema de ayuda que contiene un descripción del comando, una lista de las marcas y los argumentos del comando, y ejemplos de cómo usar el comando.
 
 
-
 Comandos para deployar un proyecto.
 
+```bash
 gcloud deployment-manager deployments create my-deployment --config deployment.yaml
+```
 
 Comando para borrar el deploy creado
 
+```bash
 gcloud deployment-manager deployments delete deployment-with-2-vms
+```
 
 Comando para listar los proyectos creados
 
+```bash
 gcloud deployment-manager deployments list
+```
 
 Comando para listar imágenes disponibles en GCP
 
+```bash
 gcloud compute images list --project=rhel-cloud
+```
 
 Creación IP GCP
 
@@ -165,28 +184,35 @@ Nos servirá crear una IP fija para luego usarla en la maquina virtual que crear
 
 Reservar una IP estática:
 
+```bash
 gcloud compute addresses create my-static-ip-1 --region us-central1
 gcloud compute addresses create my-static-ip-2 --region us-central1
+```
 
 Una vez creada utilizaremos el siguiente comando:
 
+```bash
 gcloud compute addresses list
+```
 
 Creación Bucket GCP (Opcional)
 
 Esto se alojara los scripts en Bash para ejecutar la plantilla de Deploy, esto solo se hará si no existe un bucket o el bucket.
 
+```bash
 gsutil mb gs://scripts-base-gcp
+```
 
+Subir los scripts al servidor
 
-
-Subir los scripts al servidor 
-
+```bash
 gsutil cp startup-script-php-8.3.8.sh gs://scripts-base-gcp/
 gsutil cp startup-script-php-8.0.30.sh gs://scripts-base-gcp/
+```
 
 Plantilla de Deployment Manage
 
+```bash
 imports:
   - path: instance-template.jinja
 
@@ -220,8 +246,9 @@ resources:
           curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/startup-script-php-8.0.sh
           chmod +x /tmp/startup-script.sh
           /tmp/startup-script.sh
+```
 
-
+```bash
 {% set REGION = properties["zone"].split("-")[0] + "-" + properties["zone"].split("-")[1] %}
 
 resources:
@@ -252,7 +279,9 @@ resources:
           - http-server
           - https-server
 
+```
 
+```bash
 #!/bin/bash
 
 # Archivo de log para depuración
@@ -335,7 +364,9 @@ echo "##########################################################################
 echo "######################################################################################################"
 echo "######################################################################################################"
 echo "Script de configuración terminado, todo OK..."
+```
 
+```bash
 #!/bin/bash
 
 # Archivo de log para depuración
@@ -418,23 +449,21 @@ echo "##########################################################################
 echo "######################################################################################################"
 echo "######################################################################################################"
 echo "Script de configuración terminado, todo OK..."
-
-
-
+```
 
 Deployar el proyecto
 
+```bash
 gcloud deployment-manager deployments create my-deployment --config deployment.yaml
+```
 
 
+Si por algún motivo arroja error borrar el proyecto
 
-Si por algún motivo arroja error borrar el proyecto 
-
+```bash
 gcloud deployment-manager deployments delete my-deployment
-
-
+```
 
 Para validar si se ha creado correctamente ir al enlace del proyecto
 
 https://console.cloud.google.com/compute/instances?hl=es&project=PROYECTO-DONDE-SE-CREO
-

@@ -1,14 +1,15 @@
 # Documentación Oficial
 
-https://cloud.google.com/deployment-manager/docs?hl=es-419
+[Google Deployment Manager Docs](https://cloud.google.com/deployment-manager/docs?hl=es-419)
 
-https://cloud.google.com/sdk/docs/install-sdk?hl=es-419
+[Google Cloud SDK Docs](https://cloud.google.com/sdk/docs/install-sdk?hl=es-419)
 
-https://cloud.google.com/sdk/docs/how-to?hl=es-419
+[Google Cloud SDK Docs](https://cloud.google.com/sdk/docs/how-to?hl=es-419)
 
-https://cloud.google.com/deployment-manager/docs/deployments/viewing-manifest?hl=es-419
+[Google Deployment Manager Docs](https://cloud.google.com/deployment-manager/docs/deployments/viewing-manifest?hl=es-419)
 
-https://cloud.google.com/deployment-manager/docs/reference/cloud-foundation-toolkit
+[Cloud Foundation Toolkit Reference](https://cloud.google.com/deployment-manager/docs/reference/cloud-foundation-toolkit)
+
 
 Instalación
 
@@ -93,7 +94,9 @@ Luego de instalar debemos tener habilitados algunos permisos para que GCP pueda 
 
 Debemos ir al siguiente enlace:
 
-https://cloud.google.com/deployment-manager/docs/step-by-step-guide/installation-and-setup?hl=es-419 
+[Google Cloud Deployment Manager Step-by-Step Guide](https://cloud.google.com/deployment-manager/docs/step-by-step-guide/installation-and-setup?hl=es-419)
+
+Debemos habilitar las dos siguientes API para no tener problemas a futuro.
 
 Debemos habilitar las dos siguientes API para no tener problemas a futuro.
 
@@ -223,12 +226,12 @@ resources:
       zone: us-central1-a
       machineType: e2-small
       diskImage: projects/rhel-cloud/global/images/rhel-9-v20240709
-      externalIp: 35.226.205.94
+      externalIp: YOUR_IP_EXTERNA
       metadata:
         startup-script: |
           #!/bin/bash
           echo "Hello, World!" > /tmp/hello.txt
-          curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/startup-script-php-8.3.sh
+          curl -o /tmp/startup-script.sh https://storage.googleapis.com/YOUR_FOLDER/startup-script-php-8.3.sh
           chmod +x /tmp/startup-script.sh
           /tmp/startup-script.sh
 
@@ -238,12 +241,12 @@ resources:
       zone: us-central1-a
       machineType: e2-small
       diskImage: projects/rhel-cloud/global/images/rhel-9-v20240709
-      externalIp: 146.148.36.172
+      externalIp: YOUR_IP_EXTERNA
       metadata:
         startup-script: |
           #!/bin/bash
           echo "Hello, World!" > /tmp/hello.txt
-          curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/startup-script-php-8.0.sh
+          curl -o /tmp/startup-script.sh https://storage.googleapis.com/YOUR_FOLDER/startup-script-php-8.0.sh
           chmod +x /tmp/startup-script.sh
           /tmp/startup-script.sh
 ```
@@ -466,4 +469,6 @@ gcloud deployment-manager deployments delete my-deployment
 
 Para validar si se ha creado correctamente ir al enlace del proyecto
 
+```bash
 https://console.cloud.google.com/compute/instances?hl=es&project=PROYECTO-DONDE-SE-CREO
+```

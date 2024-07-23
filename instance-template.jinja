@@ -1,0 +1,29 @@
+{% set REGION = properties["zone"].split("-")[0] + "-" + properties["zone"].split("-")[1] %}
+
+resources:
+  - name: {{ env["name"] }}
+    type: compute.v1.instance
+    properties:
+      zone: {{ properties["zone"] }}
+      machineType: zones/{{ properties["zone"] }}/machineTypes/{{ properties["machineType"] }}
+      metadata:
+        items:
+          - key: startup-script
+            value: {{ properties["metadata"]["startup-script"] | tojson }}
+      networkInterfaces:
+        - network: global/networks/default
+          accessConfigs:
+            - name: External NAT
+              type: ONE_TO_ONE_NAT
+              natIP: {{ properties["externalIp"] }}
+      disks:
+        - deviceName: boot
+          type: PERSISTENT
+          boot: true
+          autoDelete: true
+          initializeParams:
+            sourceImage: {{ properties["diskImage"] }}
+      tags:
+        items:
+          - http-server
+          - https-server

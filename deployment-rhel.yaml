@@ -1,0 +1,47 @@
+imports:
+  - path: instance-template.jinja
+
+resources:
+  - name: vm-instance-php-8-3
+    type: instance-template.jinja
+    properties:
+      zone: us-central1-a
+      machineType: e2-small
+      diskImage: projects/rhel-cloud/global/images/rhel-9-v20240709
+      externalIp: 34.172.72.15
+      metadata:
+        startup-script: |
+          #!/bin/bash
+          echo "Hello, World!" > /tmp/hello.txt
+          curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/rhel/startup-script-php-8.3.sh
+          chmod +x /tmp/startup-script.sh
+          /tmp/startup-script.sh
+
+  - name: vm-instance-php-8-2
+    type: instance-template.jinja
+    properties:
+      zone: us-central1-a
+      machineType: e2-small
+      diskImage: projects/rhel-cloud/global/images/rhel-9-v20240709
+      externalIp: 146.148.36.172
+      metadata:
+        startup-script: |
+          #!/bin/bash
+          curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/rhel/startup-script-php-8.2.sh
+          chmod +x /tmp/startup-script.sh
+          /tmp/startup-script.sh
+
+  - name: vm-instance-php-8-0
+    type: instance-template.jinja
+    properties:
+      zone: us-central1-a
+      machineType: e2-small
+      diskImage: projects/rhel-cloud/global/images/rhel-9-v20240709
+      externalIp: 35.226.205.94
+      metadata:
+        startup-script: |
+          #!/bin/bash
+          curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/rhel/startup-script-php-8.0.sh
+          chmod +x /tmp/startup-script.sh
+          /tmp/startup-script.sh
+

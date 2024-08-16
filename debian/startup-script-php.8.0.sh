@@ -103,13 +103,6 @@ sudo sh -c 'echo "    Options -Indexes" >> /etc/apache2/apache2.conf'
 sudo sh -c 'echo "    Require all granted" >> /etc/apache2/apache2.conf'
 sudo sh -c 'echo "</Directory>" >> /etc/apache2/apache2.conf'
 
-# Actualizar el PATH y recargar ~/.bashrc
-echo "Actualizando el PATH y recargando ~/.bashrc"
-echo 'export PATH=$PATH:/usr/sbin' >> ~/.bashrc
-export PATH=$PATH:/usr/sbin
-source ~/.bashrc
-source ~/.profile
-
 # Reiniciar Apache para aplicar cambios
 echo "Reiniciando Apache"
 sudo systemctl restart apache2
@@ -142,6 +135,13 @@ sudo systemctl start fail2ban
 sudo apt update -y
 sudo apt upgrade -y
 sudo apt autoremove -y
+
+# Actualizar el PATH y recargar ~/.bashrc
+echo "Actualizando el PATH y recargando ~/.bashrc"
+echo 'export PATH=$PATH:/usr/sbin' >> ~/.bashrc
+export PATH=$PATH:/usr/sbin
+source ~/.bashrc
+source ~/.profile
 
 echo "######################################################################################################"
 echo "Script de configuración terminado, todo OK..."

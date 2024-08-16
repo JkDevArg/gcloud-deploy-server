@@ -99,12 +99,6 @@ sudo sh -c 'echo "    Options -Indexes" >> /etc/apache2/apache2.conf'
 sudo sh -c 'echo "    Require all granted" >> /etc/apache2/apache2.conf'
 sudo sh -c 'echo "</Directory>" >> /etc/apache2/apache2.conf'
 
-# Actualizar el PATH y recargar ~/.bashrc
-echo "Actualizando el PATH y recargando ~/.bashrc"
-echo 'export PATH=$PATH:/usr/sbin' >> ~/.bashrc
-export PATH=$PATH:/usr/sbin
-source ~/.bashrc
-
 # Reiniciar Apache para aplicar cambios
 echo "Reiniciando Apache"
 sudo systemctl restart apache2
@@ -132,6 +126,13 @@ sudo sh -c 'echo "backend = systemd" >> /etc/fail2ban/jail.local'
 echo "Configurando Fail2Ban"
 sudo systemctl enable fail2ban
 sudo systemctl start fail2ban
+
+# Actualizar el PATH y recargar ~/.bashrc
+echo "Actualizando el PATH y recargando ~/.bashrc"
+echo 'export PATH=$PATH:/usr/sbin' >> ~/.bashrc
+export PATH=$PATH:/usr/sbin
+source ~/.bashrc
+source ~/.profile
 
 echo "######################################################################################################"
 echo "Script de configuración terminado, todo OK..."

@@ -8,7 +8,7 @@ resources:
       zone: us-central1-a
       machineType: e2-small
       diskImage: projects/debian-cloud/global/images/family/debian-11
-      externalIp: 34.172.72.15
+      externalIp: CHANGE_IP_CREATED
       metadata:
         startup-script: |
           #!/bin/bash
@@ -22,7 +22,7 @@ resources:
       zone: us-central1-a
       machineType: e2-small
       diskImage: projects/debian-cloud/global/images/family/debian-11
-      externalIp: 146.148.36.172
+      externalIp: CHANGE_IP_CREATED
       metadata:
         startup-script: |
           #!/bin/bash
@@ -36,7 +36,7 @@ resources:
       zone: us-central1-a
       machineType: e2-small
       diskImage: projects/debian-cloud/global/images/family/debian-11
-      externalIp: 35.226.205.94
+      externalIp: CHANGE_IP_CREATED
       metadata:
         startup-script: |
           #!/bin/bash

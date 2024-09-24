@@ -26,6 +26,9 @@ sudo apt install -y apache2 libapache2-mod-php
 sudo apt purge -y php8.3 php8.3-fpm php8.3-cli php8.3-{bz2,curl,mbstring,intl}
 sudo apt install -y git openssl htop screen zip unzip wget certbot composer nano locales-all fail2ban python3-certbot-apache grpc
 sudo apt install -y php8.0 php8.0-fpm php8.0-cli php8.0-{bz2,curl,mbstring,intl} libapache2-mod-php8.0 php8.0-mysqli php8.0-gd php8.0-xml php8.0-zip php8.0-grpc
+
+# Reiniciar Apache para aplicar cambios
+echo "Reiniciando Apache"
 sudo systemctl restart apache2
 
 # Agregamos los permisos para el grupo www-data en archivo visudo
@@ -33,7 +36,8 @@ echo "Agregando permisos para el grupo www-data"
 echo '%www-data ALL=(root) NOPASSWD: /usr/sbin/service, /usr/bin/crontab, /bin/systemctl, /bin/nano, /usr/bin/certbot, /usr/bin/composer, /bin/chmod -R 775 /var/www/html/, /usr/bin/tail, /usr/bin/cp, /usr/sbin/a2ensite, /usr/sbin/a2dissite, /usr/sbin/a2enmod' | sudo tee -a /etc/sudoers
 
 # Descargamos un cron para luego moverlo https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh
-wget https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh -O /home/scripts/renew_ssl_v2.sh
+sudo mkdir /home/scripts/
+sudo wget https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh -O /home/scripts/renew_ssl_v2.sh
 
 # Le damos los permisos
 sudo chmod +x /home/scripts/renew_ssl_v2.sh
@@ -50,10 +54,6 @@ sudo a2enconf php8.0-fpm
 echo "Configurando sudoers"
 sudo sed -i '/%sudo/s/^# //' /etc/sudoers
 sudo sed -i '/%sudo/s/ALL$/NOPASSWD: ALL/' /etc/sudoers
-
-# Añade reglas específicas para el usuario www-data (Apache en Debian)
-echo "Añadiendo reglas de sudoers para www-data"
-echo '%www-data ALL=(root) NOPASSWD: /usr/sbin/service, /usr/bin/crontab, /bin/systemctl, /bin/nano, /usr/bin/certbot, /usr/bin/composer, /bin/chmod -R 775 /var/www/html/, /usr/bin/tail' | sudo tee -a /etc/sudoers
 
 # Configura la zona horaria y el idioma
 echo "Configurando zona horaria y idioma"

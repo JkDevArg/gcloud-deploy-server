@@ -108,7 +108,8 @@ echo "Agregando permisos para el grupo www-data"
 echo '%www-data ALL=(root) NOPASSWD: /usr/sbin/service, /usr/bin/crontab, /bin/systemctl, /bin/nano, /usr/bin/certbot, /usr/bin/composer, /bin/chmod -R 775 /var/www/html/, /usr/bin/tail, /usr/bin/cp, /usr/sbin/a2ensite, /usr/sbin/a2dissite, /usr/sbin/a2enmod' | sudo tee -a /etc/sudoers
 
 # Descargamos un cron para luego moverlo https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh
-wget https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh -O /home/scripts/renew_ssl_v2.sh
+sudo mkdir /home/scripts/
+sudo wget https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh -O /home/scripts/renew_ssl_v2.sh
 
 # Le damos los permisos
 sudo chmod +x /home/scripts/renew_ssl_v2.sh

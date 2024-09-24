@@ -107,8 +107,11 @@ sudo systemctl restart apache2
 echo "Agregando permisos para el grupo www-data"
 echo '%www-data ALL=(root) NOPASSWD: /usr/sbin/service, /usr/bin/crontab, /bin/systemctl, /bin/nano, /usr/bin/certbot, /usr/bin/composer, /bin/chmod -R 775 /var/www/html/, /usr/bin/tail, /usr/bin/cp, /usr/sbin/a2ensite, /usr/sbin/a2dissite, /usr/sbin/a2enmod' | sudo tee -a /etc/sudoers
 
-# Copiamos el archivo de cron en la carepta cron/renew_ssl_v2.sh
-sudo cp ./cron/renew_ssl_v2.sh /etc/cron.d/renew_ssl_v2.sh
+# Descargamos un cron para luego moverlo https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh
+wget https://storage.googleapis.com/scripts-base-gcp/crons/renew_ssl_v2.sh -O /home/scripts/renew_ssl_v2.sh
+
+# Le damos los permisos
+sudo chmod +x /home/scripts/renew_ssl_v2.sh
 
 # Agregar el siguiente comando en el cron 00 01 * * * /bin/bash /home/scripts/renew_ssl_v2.sh
 echo "Agregando cron para renovar certificados"

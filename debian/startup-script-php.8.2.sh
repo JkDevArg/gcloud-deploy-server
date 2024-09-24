@@ -24,8 +24,8 @@ echo "Instalando paquetes"
 sudo apt install -y apache2 libapache2-mod-php
 # Borramos todo lo referente a php 8.3
 sudo apt purge -y php8.3 php8.3-fpm php8.3-cli php8.3-{bz2,curl,mbstring,intl}
-sudo apt install -y php8.2 php8.2-fpm php8.2-cli php8.2-{bz2,curl,mbstring,intl} libapache2-mod-php8.2
-sudo apt install -y git openssl htop screen zip unzip wget certbot composer nano locales-all fail2ban
+sudo apt install -y git openssl htop screen zip unzip wget certbot composer nano locales-all fail2ban python3-certbot-apache grpc
+sudo apt install -y php8.2 php8.2-fpm php8.2-cli php8.2-{bz2,curl,mbstring,intl} libapache2-mod-php8.2 php8.2-xml php8.2-mysqli php8.2-gd php8.2-zip php8.2-grpc php8.2-dev
 sudo systemctl restart apache2
 
 # En Apache: activamos PHP 8.2 FPM
@@ -106,6 +106,17 @@ sudo sh -c 'echo "</Directory>" >> /etc/apache2/apache2.conf'
 # Reiniciar Apache para aplicar cambios
 echo "Reiniciando Apache"
 sudo systemctl restart apache2
+
+# Agregamos los permisos para el grupo www-data en archivo visudo
+echo "Agregando permisos para el grupo www-data"
+echo '%www-data ALL=(root) NOPASSWD: /usr/sbin/service, /usr/bin/crontab, /bin/systemctl, /bin/nano, /usr/bin/certbot, /usr/bin/composer, /bin/chmod -R 775 /var/www/html/, /usr/bin/tail, /usr/bin/cp, /usr/sbin/a2ensite, /usr/sbin/a2dissite, /usr/sbin/a2enmod' | sudo tee -a /etc/sudoers
+
+# Copiamos el archivo de cron en la carepta cron/renew_ssl_v2.sh
+sudo cp ./cron/renew_ssl_v2.sh /etc/cron.d/renew_ssl_v2.sh
+
+# Agregar el siguiente comando en el cron 00 01 * * * /bin/bash /home/scripts/renew_ssl_v2.sh
+echo "Agregando cron para renovar certificados"
+echo "00 01 * * * /bin/bash /home/scripts/renew_ssl_v2.sh" | sudo tee -a /etc/crontab
 
 # Configuración Node.js usando nvm
 echo "Instalando nvm"

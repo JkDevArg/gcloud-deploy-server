@@ -1,0 +1,17 @@
+imports:
+  - path: instance-template.jinja
+
+resources:
+  - name: sonar-instance
+    type: instance-template.jinja
+    properties:
+      zone: us-central1-a
+      machineType: e2-small
+      diskImage: projects/debian-cloud/global/images/family/debian-11
+      externalIp: CHANGE_IP_CREATED
+      metadata:
+        startup-script: |
+          #!/bin/bash
+          curl -o /tmp/startup-script.sh https://storage.googleapis.com/scripts-base-gcp/sonarqube/startup-script.sh
+          chmod +x /tmp/startup-script.sh
+          /tmp/startup-script.sh
